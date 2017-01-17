@@ -1,3 +1,11 @@
+## Setup
+
+In order to run this project in XCode 8 along with Swift 3
+Try setting "Target Setting->Build Setting->Swift Compiler - Version ->Use legacy swift language version" to "YES"
+
+Credits: [mohammadrhemmati](https://github.com/mohammadrhemmati) 
+
+# Original Readme from Process-One
 # XMPP-MESSENGER-IOS
 
 [![Version](https://img.shields.io/cocoapods/v/xmpp-messenger-ios.svg?style=flat)](http://cocoapods.org/pods/xmpp-messenger-ios)
