@@ -1,4 +1,4 @@
-## Setup for Swift 3 and Xcode 8
+# Setup for Swift 3 and Xcode 8
 
 In order to run this project in XCode 8 along with Swift 3
 Try setting "Target Setting->Build Setting->Swift Compiler - Version ->Use legacy swift language version" to "YES"
