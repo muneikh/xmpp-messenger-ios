@@ -5,7 +5,7 @@ Try setting "Target Setting->Build Setting->Swift Compiler - Version ->Use legac
 
 Credits: [mohammadrhemmati](https://github.com/mohammadrhemmati) 
 
-# XMPP-MESSENGER-IOS
+# XMPP-MESSENGER-IOS (OLD README)
 
 [![Version](https://img.shields.io/cocoapods/v/xmpp-messenger-ios.svg?style=flat)](http://cocoapods.org/pods/xmpp-messenger-ios)
 [![License](https://img.shields.io/cocoapods/l/xmpp-messenger-ios.svg?style=flat)](http://cocoapods.org/pods/xmpp-messenger-ios)
