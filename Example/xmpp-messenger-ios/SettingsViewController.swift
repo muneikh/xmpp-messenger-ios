@@ -8,7 +8,7 @@
 
 import UIKit
 import XMPPFramework
-import xmpp_messenger_ios
+//import xmpp_messenger_ios
 
 class SettingsViewController: UIViewController {
   
@@ -21,7 +21,7 @@ class SettingsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let tap = UITapGestureRecognizer(target: self, action: "DismissKeyboard")
+    let tap = UITapGestureRecognizer(target: self, action: #selector(SettingsViewController.DismissKeyboard))
     view.addGestureRecognizer(tap)
 	
 	if OneChat.sharedInstance.isConnected() {
@@ -63,6 +63,7 @@ class SettingsViewController: UIViewController {
 				}))
 				self.presentViewController(alertController, animated: true, completion: nil)
 			} else {
+                OnePresence.goOnline()
 				self.dismissViewControllerAnimated(true, completion: nil)
 			}
 		}

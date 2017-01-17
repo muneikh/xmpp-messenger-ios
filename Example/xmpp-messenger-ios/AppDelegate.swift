@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import xmpp_messenger_ios
+import XMPPFramework
+//import xmpp_messenger_ios
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        DDLog.addLogger(DDTTYLogger.sharedInstance(), withLevel: DDLogLevel.All)
 		// Override point for customization after application launch.
 		OneChat.start(true, delegate: nil) { (stream, error) -> Void in
 			if let _ = error {
@@ -37,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func applicationDidEnterBackground(application: UIApplication) {
 		// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
 		// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-		if application.respondsToSelector("setKeepAliveTimeout:handler:") {
+		if application.respondsToSelector(#selector(UIApplication.setKeepAliveTimeout(_:handler:))) {
 			application.setKeepAliveTimeout(600, handler: { () -> Void in
 				// Do other keep alive stuff here.
 			})

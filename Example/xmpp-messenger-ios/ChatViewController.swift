@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import xmpp_messenger_ios
+//import xmpp_messenger_ios
 import JSQMessagesViewController
 import XMPPFramework
 
@@ -54,7 +54,8 @@ class ChatViewController: JSQMessagesViewController, OneMessageDelegate, Contact
             		} */
 			
 			dispatch_async(dispatch_get_main_queue(), { () -> Void in
-				self.messages = OneMessage.sharedInstance.loadArchivedMessagesFrom(jid: recipient.jidStr)
+//                self.messages = OneMessage.sharedInstance.loadArchivedMessagesFrom(jid: recipient.jidStr)
+				self.messages = OneMessage.sharedInstance.loadArchivedMessagesFrom(jid: recipient.jidStr,thread: "")
 				self.finishReceivingMessageAnimated(true)
 			})
 		} else {
@@ -63,7 +64,7 @@ class ChatViewController: JSQMessagesViewController, OneMessageDelegate, Contact
             		}
 			
 			self.inputToolbar!.contentView!.rightBarButtonItem!.enabled = false
-			self.navigationItem.setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addRecipient"), animated: true)
+			self.navigationItem.setRightBarButtonItem(UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(ChatViewController.addRecipient)), animated: true)
 			if firstTime {
 				firstTime = false
 				addRecipient()
@@ -100,7 +101,8 @@ class ChatViewController: JSQMessagesViewController, OneMessageDelegate, Contact
 		if !OneChats.knownUserForJid(jidStr: recipient.jidStr) {
 			OneChats.addUserToChatList(jidStr: recipient.jidStr)
 		} else {
-			messages = OneMessage.sharedInstance.loadArchivedMessagesFrom(jid: recipient.jidStr)
+//            messages = OneMessage.sharedInstance.loadArchivedMessagesFrom(jid: recipient.jidStr)
+			messages = OneMessage.sharedInstance.loadArchivedMessagesFrom(jid: recipient.jidStr,thread: "")
 			finishReceivingMessageAnimated(true)
 		}
 	}
@@ -121,11 +123,12 @@ class ChatViewController: JSQMessagesViewController, OneMessageDelegate, Contact
             		timer?.invalidate()
             		if !isComposing {
                 		self.isComposing = true
-                		OneMessage.sendIsComposingMessage((recipient?.jidStr)!, completionHandler: { (stream, message) -> Void in
-                    			self.timer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "hideTypingIndicator", userInfo: nil, repeats: false)
+//                        OneMessage.sendIsComposingMessage((recipient?.jidStr)!, completionHandler: { (stream, message) -> Void in
+                		OneMessage.sendIsComposingMessage((recipient?.jidStr)!,thread:"" , completionHandler: { (stream, message) -> Void in
+                    			self.timer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(ChatViewController.hideTypingIndicator), userInfo: nil, repeats: false)
                 		})
             		} else {
-                		self.timer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "hideTypingIndicator", userInfo: nil, repeats: false)
+                		self.timer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(ChatViewController.hideTypingIndicator), userInfo: nil, repeats: false)
             		}
         	}
     	}
@@ -133,7 +136,8 @@ class ChatViewController: JSQMessagesViewController, OneMessageDelegate, Contact
     	func hideTypingIndicator() {
         	if let recipient = recipient {
             		self.isComposing = false
-            		OneMessage.sendIsComposingMessage((recipient.jidStr)!, completionHandler: { (stream, message) -> Void in
+//                    OneMessage.sendIsComposingMessage((recipient.jidStr)!, completionHandler: { (stream, message) -> Void in
+            		OneMessage.sendIsComposingMessage((recipient.jidStr)!,thread: "", completionHandler: { (stream, message) -> Void in
             
             		})
         	}
@@ -144,7 +148,8 @@ class ChatViewController: JSQMessagesViewController, OneMessageDelegate, Contact
 		messages.addObject(fullMessage)
 		
 		if let recipient = recipient {
-			OneMessage.sendMessage(text, to: recipient.jidStr, completionHandler: { (stream, message) -> Void in
+//            OneMessage.sendMessage(text, to: recipient.jidStr, completionHandler: { (stream, message) -> Void in
+            OneMessage.sendMessage(text, thread: "", to: recipient.jidStr, completionHandler: { (stream, message) -> Void in
 				JSQSystemSoundPlayer.jsq_playMessageSentSound()
 				self.finishSendingMessageAnimated(true)
 			})
@@ -288,8 +293,10 @@ class ChatViewController: JSQMessagesViewController, OneMessageDelegate, Contact
 			
 			JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
 			
-			if let msg: String = message.elementForName("body")?.stringValue() {
-				if let from: String = message.attributeForName("from")?.stringValue() {
+//			if let msg: String = message.elementForName("body")?.stringValue() {
+            if let msg: String = message.elementForName("body")?.stringValue! {
+//                if let from: String = message.attributeForName("from")?.stringValue() {
+				if let from: String = message.attributeForName("from")?.stringValue {
 					let message = JSQMessage(senderId: from, senderDisplayName: from, date: NSDate(), text: msg)
 					messages.addObject(message)
 					

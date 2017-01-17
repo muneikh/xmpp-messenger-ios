@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import xmpp_messenger_ios
+//import xmpp_messenger_ios
 import XMPPFramework
 
 class OpenChatsTableViewController: UITableViewController, OneRosterDelegate {
